@@ -3,6 +3,8 @@
 var canvas = global.canvas;
 var utils = new (require('./fabricUtils.js'))();
 
+require('./objects/tooltip.class.js');
+
 var drawnObj, isMouseDown;
 
 function disableDraw() {
@@ -66,6 +68,16 @@ function drawObj(objType) {
         left: pointer.x,
         fill: 'yellow'
       });
+    } else if (objType === 'toolbar') {
+      drawnObj = new fabric.Tooltip({
+        width: 0,
+        height: 0,
+        top: pointer.y,
+        left: pointer.x,
+        rx: 20,
+        ry: 20,
+        fill: 'blue'
+      });
     }
 
     canvas.add(drawnObj);
@@ -83,7 +95,7 @@ function drawObj(objType) {
       } else {
         drawnObj.set({ x2: pointer.x, y2: pointer.y });
       }
-    } else if (objType === 'square' || objType === 'rounded-rect') {
+    } else if (objType === 'square' || objType === 'rounded-rect' || objType === 'toolbar') {
       var newWidth = (drawnObj.left - pointer.x) * -1;
       var newHeight = (drawnObj.top - pointer.y) * -1;
       drawnObj.set({width: newWidth, height: newHeight});

@@ -387,6 +387,13 @@ function listeners() {
     canvas.defaultCursor = 'crosshair';
   });
 
+  $("#shapes-toolbar").on("click", function() {
+    canvas.deactivateAllWithDispatch();
+    canvas.renderAll();
+    drawing.drawObj("toolbar");
+    canvas.defaultCursor = 'crosshair';
+  });
+
   $("#download-button").on("click", function() {
     toggle($("#sidebar-export"));
     return false;
