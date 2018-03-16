@@ -139,7 +139,7 @@ gulp.task('clean', function () {
 
 // lint javascript
 gulp.task('lint', function () {
-    return gulp.src(['src/js/*.js', 'src/js/app/*.js'], {base: 'src/js/'})
+    return gulp.src(['src/js/*.js', 'src/js/app/*.js', 'src/js/app/objects/*.js'], {base: 'src/js/'})
         .pipe(jshint())
         .on('error', errorHandler)
         .pipe(jshint.reporter('default'));

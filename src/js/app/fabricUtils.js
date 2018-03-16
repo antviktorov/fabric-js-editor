@@ -10,7 +10,7 @@ var canvas = global.canvas;
 var filesaver = require('../lib/filesaver.min.js');
 
 function selectAll(objs) {
-  canvas.deactivateAll();
+  canvas.discardActiveObject();
 
   if (objs === undefined) {
     objs = canvas.getObjects();
@@ -24,7 +24,7 @@ function selectAll(objs) {
     originY: 'center'
   });
 
-  canvas.setActiveGroup(group.setCoords());
+  canvas.setActiveObject(group.setCoords());
 }
 
 function sendForward() {
@@ -73,7 +73,7 @@ function clone() {
     var objects = canvas.getActiveGroup().objects;
 
     // Fabric.js bug getting an object's coordinates when a group is selected
-    canvas.deactivateAll();
+    canvas.discardActiveObject();
 
     var cloned = [];
     for (var i = 0; i < objects.length; i++) {
@@ -92,7 +92,7 @@ function clone() {
     canvas.add(object);
 
     // select new object
-    canvas.deactivateAll();
+    canvas.discardActiveObject();
     canvas.setActiveObject(object);
   }
 
@@ -180,7 +180,7 @@ function getImageBounds(fitToCanvas) {
   }
 
   // Fabric.js bug getting an objects bounds when all objects are selected
-  canvas.deactivateAll();
+  canvas.discardActiveObject();
   var bounds = objs[0].getBoundingRect();
 
   // Find maximum bounds
@@ -233,7 +233,7 @@ function getImageBounds(fitToCanvas) {
 
   // Don't show selection tools
   selectAll();
-  canvas.deactivateAll();
+  canvas.discardActiveObject();
   canvas.renderAll();
 
   return bounds;
@@ -349,7 +349,7 @@ function insertSvg(url, loader) {
     canvas.add(obj);
     obj.perPixelTargetFind = true;
     obj.targetFindTolerance = 4;
-    canvas.deactivateAll();
+    canvas.discardActiveObject();
     canvas.setActiveObject(obj);
     canvas.renderAll();
 
@@ -572,7 +572,7 @@ function centerContent() {
 
   // Work around bug where you can't select objects after they have been added
   selectAll();
-  canvas.deactivateAll();
+  canvas.discardActiveObject();
 
   canvas.renderAll();
 }

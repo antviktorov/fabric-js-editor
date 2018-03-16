@@ -6,6 +6,8 @@ require('../lib/jquery.ui.position.min.js');
 require('../lib/jquery.contextMenu.min.js');
 require('../lib/jquery.tooltipster.min.js');
 
+require('./objects/tooltip.class.js');
+
 var config = require('./config.js');
 var utils = new (require('./fabricUtils.js'))();
 var page = new (require('./page.js'))();
@@ -132,7 +134,7 @@ function showActiveTools() {
   var tools = $("#active-tools");
   var obj = canvas.getActiveObject();
 
-  if (canvas.getActiveGroup() !== null && canvas.getActiveGroup() !== undefined) {
+  if (canvas.getActiveObjects() !== null && canvas.getActiveObjects() !== undefined) {
     $("#active-tools > div").addClass("noshow");
     tools.removeClass("noshow");
     $("div.group", tools).removeClass("noshow");
@@ -360,35 +362,35 @@ function listeners() {
   });
 
   $("#shapes-line").on("click", function() {
-    canvas.deactivateAllWithDispatch();
+    canvas.discardActiveObject();
     canvas.renderAll();
     drawing.drawObj("line");
     canvas.defaultCursor = 'crosshair';
   });
 
   $("#shapes-circle").on("click", function() {
-    canvas.deactivateAllWithDispatch();
+    canvas.discardActiveObject();
     canvas.renderAll();
     drawing.drawObj("circle");
     canvas.defaultCursor = 'crosshair';
   });
 
   $("#shapes-rectangle").on("click", function() {
-    canvas.deactivateAllWithDispatch();
+    canvas.discardActiveObject();
     canvas.renderAll();
     drawing.drawObj("square");
     canvas.defaultCursor = 'crosshair';
   });
 
   $("#shapes-rounded").on("click", function() {
-    canvas.deactivateAllWithDispatch();
+    canvas.discardActiveObject();
     canvas.renderAll();
     drawing.drawObj("rounded-rect");
     canvas.defaultCursor = 'crosshair';
   });
 
   $("#shapes-toolbar").on("click", function() {
-    canvas.deactivateAllWithDispatch();
+    canvas.discardActiveObject();
     canvas.renderAll();
     drawing.drawObj("toolbar");
     canvas.defaultCursor = 'crosshair';
