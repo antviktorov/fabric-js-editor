@@ -6,8 +6,6 @@ require('../lib/jquery.ui.position.min.js');
 require('../lib/jquery.contextMenu.min.js');
 require('../lib/jquery.tooltipster.min.js');
 
-require('./objects/tooltip.class.js');
-
 var config = require('./config.js');
 var utils = new (require('./fabricUtils.js'))();
 var page = new (require('./page.js'))();
@@ -389,10 +387,10 @@ function listeners() {
     canvas.defaultCursor = 'crosshair';
   });
 
-  $("#shapes-toolbar").on("click", function() {
+  $("#shapes-tooltip").on("click", function() {
     canvas.discardActiveObject();
     canvas.renderAll();
-    drawing.drawObj("toolbar");
+    drawing.drawObj("tooltip");
     canvas.defaultCursor = 'crosshair';
   });
 

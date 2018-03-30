@@ -1,5 +1,7 @@
 "use strict";
 
+require('./objects/tooltip.group.class.js');
+
 var canvas = global.canvas;
 var utils = new (require('./fabricUtils.js'))();
 
@@ -66,29 +68,13 @@ function drawObj(objType) {
                 left: pointer.x,
                 fill: 'yellow'
             });
-        } else if (objType === 'toolbar') {
-            var triangle = new fabric.Triangle({
-                width: 30, height: 40, fill: 'green', left: pointer.x + 50 - 15, top: pointer.y - 50 + 20
-            });
-
-            var roundRect = new fabric.Rect({
-                width: 0,
-                height: 0,
-                top: pointer.y,
-                left: pointer.x,
-                rx: 10,
-                ry: 10,
-                fill: 'green'
-            });
-
-            drawnObj = new fabric.Group(null, {
+        } else if (objType === 'tooltip') {
+            drawnObj = new fabric.ToolGroup({
                 width: 0,
                 height: 0,
                 left: pointer.x,
                 top: pointer.y
             });
-            drawnObj.addWithUpdate(triangle);
-            drawnObj.addWithUpdate(roundRect);
         }
 
         canvas.add(drawnObj);
@@ -112,30 +98,13 @@ function drawObj(objType) {
             newWidth = (drawnObj.left - pointer.x) * -1;
             newHeight = (drawnObj.top - pointer.y) * -1;
             drawnObj.set({width: newWidth, height: newHeight});
-        } else if (objType === 'toolbar') {
-            newWidth = (drawnObj.left - pointer.x) * -1;
-            newHeight = (drawnObj.top - pointer.y) * -1;
-
-            var objects = drawnObj.getObjects();
-            if (!drawnObj.isEmpty()) {
-                var object;
-                for (var i = 0, len = objects.length; i < len; i++) {
-                    object = objects[i];
-                    if (object.type === 'rect') {
-                        object.set(
-                            {
-                                top: newHeight * -0.5 + 40,
-                                left: newWidth * -0.5,
-                                width: newWidth,
-                                height: newHeight - 40
-                            }
-                        );
-                    } else if (object.type === 'triangle') {
-                        object.set({left: -15, top: newHeight * -0.5});
-                    }
+        } else if (objType === 'tooltip') {
+            drawnObj.update(
+                {
+                    width: Math.abs(drawnObj.left - pointer.x),
+                    height: Math.abs(drawnObj.top - pointer.y)
                 }
-            }
-            drawnObj.set({width: newWidth, height: newHeight});
+            );
         } else if (objType === 'circle') {
             var x = drawnObj.left - pointer.x;
             var y = drawnObj.top - pointer.y;
@@ -162,6 +131,7 @@ function drawObj(objType) {
                 var newHeight = Math.abs(drawnObj.height);
                 drawnObj.set({top: newTop, height: newHeight});
             }
+
         }
 
         // Delete the object if it's tiny, otherwise select it
